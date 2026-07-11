@@ -8,7 +8,7 @@ yarn-error.log*
 # Dependency directories
 node_modules/
 
-# Environment variables (¡MUY IMPORTANTE PARA SEGURIDAD!)
+# Environment variables
 .env
 .env.local
 .env.development.local
