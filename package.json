@@ -1,0 +1,24 @@
+{
+  "name": "cse341",
+  "version": "1.0.0",
+  "description": "Web Services Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zureyma-Manrique/cse341.git"
+  },
+  "author": "Zureyma Manrique",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Zureyma-Manrique/cse341/issues"
+  },
+  "homepage": "https://github.com/Zureyma-Manrique/cse341#readme",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "mongodb": "^7.5.0"
+  }
+}
