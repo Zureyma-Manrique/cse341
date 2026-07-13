@@ -7,7 +7,7 @@ const doc = {
       'CSE 341 Contacts API — CRUD operations for a contacts collection stored in MongoDB.',
   },
   host: process.env.RENDER_HOST || 'localhost:8080',
-  schemes: ['http', 'https'],
+  schemes: ['https', 'http'],
 };
 
 const outputFile = './swagger-output.json';
