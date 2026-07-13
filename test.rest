@@ -6,7 +6,7 @@
 GET {{baseUrl}}/contacts
 
 ### Get a single contact by id (replace with a real _id from the GET all response)
-GET {{baseUrl}}/contacts/REPLACE_WITH_REAL_ID
+GET {{baseUrl}}/contacts/6a5487c4dae43836ea278f1e
 
 ### Create a new contact
 POST {{baseUrl}}/contacts
@@ -21,7 +21,7 @@ Content-Type: application/json
 }
 
 ### Update a contact (replace with a real _id)
-PUT {{baseUrl}}/contacts/REPLACE_WITH_REAL_ID
+PUT {{baseUrl}}/contacts/6a5487c4dae43836ea278f1e
 Content-Type: application/json
 
 {
@@ -33,4 +33,4 @@ Content-Type: application/json
 }
 
 ### Delete a contact (replace with a real _id)
-DELETE {{baseUrl}}/contacts/REPLACE_WITH_REAL_ID
+DELETE {{baseUrl}}/contacts/6a5487c4dae43836ea278f1e
