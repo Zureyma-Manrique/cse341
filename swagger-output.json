@@ -5,7 +5,7 @@
     "description": "CSE 341 Contacts API — CRUD operations for a contacts collection stored in MongoDB.",
     "version": "1.0.0"
   },
-  "host": "localhost:8080",
+  "host": "cse341-0zfq.onrender.com",
   "basePath": "/",
   "schemes": [
     "http",
