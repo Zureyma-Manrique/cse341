@@ -1,0 +1,22 @@
+{
+  "name": "contacts-api",
+  "version": "1.0.0",
+  "description": "CSE 341 Contacts API - CRUD with MongoDB and Swagger docs",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "swagger": "node swagger.js"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongodb": "^6.8.0",
+    "swagger-jsdoc": "^6.3.0",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "swagger-autogen": "^2.23.7"
+  }
+}
