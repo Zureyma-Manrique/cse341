@@ -25,6 +25,34 @@ const sampleContacts = [
     favoriteColor: 'green',
     birthday: '1912-06-23',
   },
+   {
+    firstName: 'Margaret',
+    lastName: 'Hamilton',
+    email: 'mhamilton@example.com',
+    favoriteColor: 'silver',
+    birthday: '1936-08-17'
+  },
+  {
+    firstName: 'Tim',
+    lastName: 'Berners-Lee',
+    email: 'tbernerslee@example.com',
+    favoriteColor: 'orange',
+    birthday: '1955-06-08'
+  },
+  {
+    firstName: 'Finn',
+    lastName: 'Mertens',
+    email: 'finn.the.human@example.com',
+    favoriteColor: 'blue',
+    birthday: '1998-03-14'
+  },
+  {
+    firstName: 'Bruno',
+    lastName: 'Mars',
+    email: 'bruno@example.com',
+    favoriteColor: 'red',
+    birthday: '1985-10-08'
+  }
 ];
 
 (async () => {
