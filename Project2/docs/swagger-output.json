@@ -2,11 +2,324 @@
   "swagger": "2.0",
   "info": {
     "title": "Calendar Agent API",
-    "description": "Run `npm run swagger` to regenerate this file with full route documentation.",
+    "description": "Automated Calendar Agent that uses an LLM (Gemini 2.5 Flash) to generate agile user stories from natural-language prompts, pending human review, then syncs approved stories to a calendar.",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "localhost:8080",
   "basePath": "/",
-  "schemes": ["http"],
-  "paths": {}
+  "tags": [
+    {
+      "name": "User Stories",
+      "description": "AI-generated agile user stories awaiting review"
+    },
+    {
+      "name": "Projects",
+      "description": "Projects that group user stories and provide AI context"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/userStories/generate": {
+      "post": {
+        "tags": [
+          "User Stories"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Natural language prompt to generate stories from.",
+            "schema": {
+              "$ref": "#/definitions/GeneratePromptRequest"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/userStories/": {
+      "get": {
+        "tags": [
+          "User Stories"
+        ],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/userStories/{id}": {
+      "get": {
+        "tags": [
+          "User Stories"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "User Stories"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Fields to update on the story.",
+            "schema": {
+              "$ref": "#/definitions/UpdateStoryRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "User Stories"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/projects/": {
+      "post": {
+        "tags": [
+          "Projects"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "New project details.",
+            "schema": {
+              "$ref": "#/definitions/CreateProjectRequest"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Projects"
+        ],
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/projects/{id}": {
+      "get": {
+        "tags": [
+          "Projects"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Projects"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "GeneratePromptRequest": {
+      "type": "object",
+      "properties": {
+        "prompt": {
+          "type": "string",
+          "example": "Plan a two-week sprint to add user authentication with OAuth login and password reset."
+        }
+      }
+    },
+    "UpdateStoryRequest": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "example": "approved"
+        },
+        "title": {
+          "type": "string",
+          "example": "Add OAuth login endpoint"
+        },
+        "description": {
+          "type": "string",
+          "example": "As a user, I want to log in with Google, so that I skip creating a new password."
+        },
+        "estimatedHours": {
+          "type": "number",
+          "example": 8
+        },
+        "scheduledDate": {
+          "type": "string",
+          "example": "2026-08-10"
+        },
+        "projectName": {
+          "type": "string",
+          "example": "Calendar Agent"
+        }
+      }
+    },
+    "CreateProjectRequest": {
+      "type": "object",
+      "properties": {
+        "projectName": {
+          "type": "string",
+          "example": "Calendar Agent"
+        },
+        "context": {
+          "type": "string",
+          "example": "Internal tool that turns sprint planning prompts into scheduled tasks."
+        }
+      }
+    }
+  }
 }

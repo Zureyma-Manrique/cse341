@@ -23,4 +23,3 @@ Thumbs.db
 
 # Swagger generated output (optional - keep out if you regenerate on build)
 # docs/swagger-output.json
-node_modules/

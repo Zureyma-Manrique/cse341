@@ -23,18 +23,21 @@ const doc = {
     { name: 'User Stories', description: 'AI-generated agile user stories awaiting review' },
     { name: 'Projects', description: 'Projects that group user stories and provide AI context' },
   ],
-  components: {
-    schemas: {
-      GeneratePromptRequest: {
-        prompt: 'Plan a two-week sprint to add user authentication with OAuth and password reset.',
-      },
-      UpdateStoryRequest: {
-        status: 'approved',
-      },
-      CreateProjectRequest: {
-        projectName: 'Calendar Agent',
-        context: 'Internal tool that turns sprint planning prompts into scheduled tasks.',
-      },
+  definitions: {
+    GeneratePromptRequest: {
+      prompt: 'Plan a two-week sprint to add user authentication with OAuth login and password reset.',
+    },
+    UpdateStoryRequest: {
+      status: 'approved',
+      title: 'Add OAuth login endpoint',
+      description: 'As a user, I want to log in with Google, so that I skip creating a new password.',
+      estimatedHours: 8,
+      scheduledDate: '2026-08-10',
+      projectName: 'Calendar Agent',
+    },
+    CreateProjectRequest: {
+      projectName: 'Calendar Agent',
+      context: 'Internal tool that turns sprint planning prompts into scheduled tasks.',
     },
   },
 };
