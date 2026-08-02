@@ -1,0 +1,41 @@
+@baseUrl = http://localhost:3000
+
+### Root / health check
+GET {{baseUrl}}/
+
+### Create a project
+POST {{baseUrl}}/projects
+Content-Type: application/json
+
+{
+  "projectName": "Calendar Agent",
+  "context": "Internal tool that converts sprint planning prompts into scheduled tasks."
+}
+
+### Get all projects
+GET {{baseUrl}}/projects
+
+### Generate user stories from a prompt (calls Gemini)
+POST {{baseUrl}}/userStories/generate
+Content-Type: application/json
+
+{
+  "prompt": "Plan a two-week sprint to add user authentication with OAuth login and password reset."
+}
+
+### Get all pending user stories
+GET {{baseUrl}}/userStories
+
+### Get a single user story by id (replace :id)
+GET {{baseUrl}}/userStories/REPLACE_WITH_ID
+
+### Approve a user story (replace :id)
+PUT {{baseUrl}}/userStories/REPLACE_WITH_ID
+Content-Type: application/json
+
+{
+  "status": "approved"
+}
+
+### Delete a user story (replace :id)
+DELETE {{baseUrl}}/userStories/REPLACE_WITH_ID
