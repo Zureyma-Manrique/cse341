@@ -10,23 +10,15 @@
     "swagger": "node docs/swagger.js"
   },
   "dependencies": {
-    "@google/genai": "^0.3.1",
-    "body-parser": "^2.3.0",
-    "cors": "^2.8.6",
-    "dotenv": "^16.6.1",
-    "express": "^4.22.2",
-    "express-validator": "^7.3.2",
-    "mongodb": "^6.21.0",
+    "@google/genai": "^0.3.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-validator": "^7.1.0",
+    "mongodb": "^6.8.0",
     "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.4",
     "swagger-autogen": "^2.23.7"
-  },
-  "directories": {
-    "doc": "docs"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  }
 }

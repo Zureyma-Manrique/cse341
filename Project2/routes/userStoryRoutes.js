@@ -13,21 +13,19 @@ const {
   validateIdParam,
 } = require('../middleware/validators');
 
-/* #swagger.tags = ['User Stories'] */
-
 // POST /userStories/generate  -> AI-powered story generation from a prompt
-router.post('/generate', validateGenerateStories, generateStories);
+router.post('/generate', /* #swagger.tags = ['User Stories'] */ validateGenerateStories, generateStories);
 
 // GET /userStories  -> all stories with status "pending"
-router.get('/', getPendingStories);
+router.get('/', /* #swagger.tags = ['User Stories'] */ getPendingStories);
 
 // GET /userStories/:id  -> a single story
-router.get('/:id', validateIdParam, getStoryById);
+router.get('/:id', /* #swagger.tags = ['User Stories'] */ validateIdParam, getStoryById);
 
 // PUT /userStories/:id  -> update status (e.g., approve) or edit fields
-router.put('/:id', validateUpdateStory, updateStory);
+router.put('/:id', /* #swagger.tags = ['User Stories'] */ validateUpdateStory, updateStory);
 
 // DELETE /userStories/:id  -> remove a story
-router.delete('/:id', validateIdParam, deleteStory);
+router.delete('/:id', /* #swagger.tags = ['User Stories'] */ validateIdParam, deleteStory);
 
 module.exports = router;

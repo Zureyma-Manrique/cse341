@@ -8,11 +8,9 @@ const {
 } = require('../controllers/projectController');
 const { validateCreateProject, validateProjectIdParam } = require('../middleware/validators');
 
-/* #swagger.tags = ['Projects'] */
-
-router.post('/', validateCreateProject, createProject);
-router.get('/', getAllProjects);
-router.get('/:id', validateProjectIdParam, getProjectById);
-router.delete('/:id', validateProjectIdParam, deleteProject);
+router.post('/', /* #swagger.tags = ['Projects'] */ validateCreateProject, createProject);
+router.get('/', /* #swagger.tags = ['Projects'] */ getAllProjects);
+router.get('/:id', /* #swagger.tags = ['Projects'] */ validateProjectIdParam, getProjectById);
+router.delete('/:id', /* #swagger.tags = ['Projects'] */ validateProjectIdParam, deleteProject);
 
 module.exports = router;
