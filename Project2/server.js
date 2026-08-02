@@ -13,18 +13,18 @@ const routes = require('./routes/index');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const isProd = process.env.NODE_ENV === 'production';
 
 if (!process.env.SESSION_SECRET) {
   throw new Error('SESSION_SECRET is not defined in the environment (.env file).');
 }
 
-// Render (and most PaaS hosts) terminate HTTPS at a proxy in front of the app.
-// Without this, Express thinks every request is plain HTTP, which breaks
-// secure cookies (the session cookie silently fails to be set/sent).
-if (isProd) {
-  app.set('trust proxy', 1);
-}
+// Render (and most PaaS hosts) terminate HTTPS at a proxy in front of the app,
+// forwarding requests to your process over plain HTTP with an
+// X-Forwarded-Proto header indicating the original scheme. Trusting the
+// proxy unconditionally (not just when NODE_ENV=production, which Render
+// does NOT set automatically) lets Express correctly report req.protocol
+// and req.secure. It's a no-op locally, where there's no proxy in front of you.
+app.set('trust proxy', 1);
 
 // ---- Global middleware ----
 app.use(express.json());
@@ -51,7 +51,7 @@ app.use(
     store: sessionStore,
     cookie: {
       maxAge: 1000 * 60 * 60 * 24, // 1 day
-      secure: isProd, // only require HTTPS-only cookies in production (Render)
+      secure: 'auto', // sets Secure only when the request is actually HTTPS (works correctly behind Render's proxy now that trust proxy is set)
     },
   })
 );
