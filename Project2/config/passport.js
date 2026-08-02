@@ -12,6 +12,14 @@ const { buildUser } = require('../models/user');
 
 const USERS_COLLECTION = 'users';
 
+if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
+  throw new Error(
+    'GOOGLE_CLIENT_ID and/or GOOGLE_CLIENT_SECRET are not set in the environment. ' +
+      'Add them to your .env file locally, or to your Render service\'s Environment tab in production. ' +
+      'Get credentials at https://console.cloud.google.com/apis/credentials'
+  );
+}
+
 passport.use(
   new GoogleStrategy(
     {
