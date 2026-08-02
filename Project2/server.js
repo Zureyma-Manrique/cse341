@@ -5,15 +5,59 @@
 
 require('dotenv').config();
 const express = require('express');
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
+const passport = require('./config/passport');
 const { connectDB, closeDB } = require('./db/connect');
 const routes = require('./routes/index');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const isProd = process.env.NODE_ENV === 'production';
+
+if (!process.env.SESSION_SECRET) {
+  throw new Error('SESSION_SECRET is not defined in the environment (.env file).');
+}
+
+// Render (and most PaaS hosts) terminate HTTPS at a proxy in front of the app.
+// Without this, Express thinks every request is plain HTTP, which breaks
+// secure cookies (the session cookie silently fails to be set/sent).
+if (isProd) {
+  app.set('trust proxy', 1);
+}
 
 // ---- Global middleware ----
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Sessions are persisted in MongoDB (same cluster as the app data) so
+// logins survive server restarts/redeploys instead of living only in memory.
+const sessionStore = MongoStore.create({
+  mongoUrl: process.env.MONGODB_URI,
+  collectionName: 'sessions',
+});
+
+// Without this listener, a dropped connection to the session store can
+// surface as an unhandled error and take the whole process down.
+sessionStore.on('error', (err) => {
+  console.error('Session store error:', err);
+});
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: sessionStore,
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24, // 1 day
+      secure: isProd, // only require HTTPS-only cookies in production (Render)
+    },
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Basic request logger (helpful during grading/demo videos)
 app.use((req, res, next) => {

@@ -5,8 +5,10 @@ const swaggerDocument = require('../docs/swagger-output.json');
 
 const userStoryRoutes = require('./userStoryRoutes');
 const projectRoutes = require('./projectRoutes');
+const authRoutes = require('./authRoutes');
 
 router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+router.use('/auth', authRoutes);
 router.use('/userStories', userStoryRoutes);
 router.use('/projects', projectRoutes);
 

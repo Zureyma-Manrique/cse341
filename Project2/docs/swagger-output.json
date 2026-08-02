@@ -5,25 +5,104 @@
     "description": "Automated Calendar Agent that uses an LLM (Gemini 2.5 Flash) to generate agile user stories from natural-language prompts, pending human review, then syncs approved stories to a calendar.",
     "version": "1.0.0"
   },
-  "host": "localhost:8080",
+  "host": "localhost:3000",
   "basePath": "/",
   "tags": [
     {
+      "name": "Auth",
+      "description": "Google OAuth login, logout, and current-user check"
+    },
+    {
       "name": "User Stories",
-      "description": "AI-generated agile user stories awaiting review"
+      "description": "AI-generated agile user stories awaiting review (requires login)"
     },
     {
       "name": "Projects",
-      "description": "Projects that group user stories and provide AI context"
+      "description": "Projects that group user stories and provide AI context (requires login)"
     }
   ],
   "schemes": [
     "http"
   ],
+  "securityDefinitions": {
+    "googleOAuth": {
+      "type": "oauth2",
+      "flow": "accessCode",
+      "authorizationUrl": "/auth/google",
+      "tokenUrl": "/auth/google/callback",
+      "scopes": {
+        "profile": "View basic profile info",
+        "email": "View email address"
+      }
+    }
+  },
   "paths": {
     "/": {
       "get": {
         "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/auth/google": {
+      "get": {
+        "description": "Redirects to Google OAuth consent screen.",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/auth/google/callback": {
+      "get": {
+        "description": "OAuth callback Google redirects to after login.",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/auth/success": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/auth/failure": {
+      "get": {
+        "description": "",
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/auth/user": {
+      "get": {
+        "description": "Returns the currently logged-in user, or 401 if not authenticated.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "get": {
+        "description": "Logs the current user out and destroys the session.",
         "responses": {
           "200": {
             "description": "OK"
@@ -54,10 +133,18 @@
           "400": {
             "description": "Bad Request"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "500": {
             "description": "Internal Server Error"
           }
-        }
+        },
+        "security": [
+          {
+            "googleOAuth": []
+          }
+        ]
       }
     },
     "/userStories/": {
@@ -70,10 +157,18 @@
           "200": {
             "description": "OK"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "500": {
             "description": "Internal Server Error"
           }
-        }
+        },
+        "security": [
+          {
+            "googleOAuth": []
+          }
+        ]
       }
     },
     "/userStories/{id}": {
@@ -97,13 +192,21 @@
           "400": {
             "description": "Bad Request"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "404": {
             "description": "Not Found"
           },
           "500": {
             "description": "Internal Server Error"
           }
-        }
+        },
+        "security": [
+          {
+            "googleOAuth": []
+          }
+        ]
       },
       "put": {
         "tags": [
@@ -133,13 +236,21 @@
           "400": {
             "description": "Bad Request"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "404": {
             "description": "Not Found"
           },
           "500": {
             "description": "Internal Server Error"
           }
-        }
+        },
+        "security": [
+          {
+            "googleOAuth": []
+          }
+        ]
       },
       "delete": {
         "tags": [
@@ -161,13 +272,21 @@
           "400": {
             "description": "Bad Request"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "404": {
             "description": "Not Found"
           },
           "500": {
             "description": "Internal Server Error"
           }
-        }
+        },
+        "security": [
+          {
+            "googleOAuth": []
+          }
+        ]
       }
     },
     "/projects/": {
@@ -190,10 +309,18 @@
           "201": {
             "description": "Created"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "500": {
             "description": "Internal Server Error"
           }
-        }
+        },
+        "security": [
+          {
+            "googleOAuth": []
+          }
+        ]
       },
       "get": {
         "tags": [
@@ -204,10 +331,18 @@
           "200": {
             "description": "OK"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "500": {
             "description": "Internal Server Error"
           }
-        }
+        },
+        "security": [
+          {
+            "googleOAuth": []
+          }
+        ]
       }
     },
     "/projects/{id}": {
@@ -231,13 +366,21 @@
           "400": {
             "description": "Bad Request"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "404": {
             "description": "Not Found"
           },
           "500": {
             "description": "Internal Server Error"
           }
-        }
+        },
+        "security": [
+          {
+            "googleOAuth": []
+          }
+        ]
       },
       "delete": {
         "tags": [
@@ -259,13 +402,21 @@
           "400": {
             "description": "Bad Request"
           },
+          "401": {
+            "description": "Unauthorized"
+          },
           "404": {
             "description": "Not Found"
           },
           "500": {
             "description": "Internal Server Error"
           }
-        }
+        },
+        "security": [
+          {
+            "googleOAuth": []
+          }
+        ]
       }
     }
   },

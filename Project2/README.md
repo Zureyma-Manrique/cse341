@@ -42,9 +42,31 @@ calendar-agent-api/
    - `PORT` — e.g. `3000`
    - `MONGODB_URI` — your Atlas (or local) connection string
    - `GEMINI_API_KEY` — from https://ai.google.dev
+   - `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` — from https://console.cloud.google.com/apis/credentials
+     (create an OAuth 2.0 Client ID, application type "Web application")
+   - `GOOGLE_CALLBACK_URL` — must exactly match an "Authorized redirect URI" on that
+     Google Cloud OAuth client, e.g. `http://localhost:3000/auth/google/callback`
+     locally, or `https://your-app.onrender.com/auth/google/callback` in production
+   - `SESSION_SECRET` — any long random string
 3. Generate the Swagger docs: `npm run swagger`
 4. Start the server: `npm start` (or `npm run dev` with nodemon)
 5. Visit `http://localhost:3000/api-docs` for the interactive Swagger UI.
+
+## Authentication (Google OAuth)
+
+- `GET /auth/google` — starts the login flow (open in a **browser**, not a REST client — Google's consent screen requires an interactive browser tab)
+- `GET /auth/google/callback` — Google redirects here automatically after consent
+- `GET /auth/user` — returns the current session's user, or `401` if not logged in
+- `GET /auth/logout` — destroys the session
+
+All `/userStories/*` and `/projects/*` routes require an active login session and
+return `401` if you're not authenticated.
+
+**Testing protected routes:** because login happens through a real browser redirect
+to Google, the `requests.rest` file can't complete that handshake itself. The
+practical flow is: log in via `/auth/google` in your browser first, then use
+**Swagger UI** (`/api-docs`) in that same browser tab to test the protected routes —
+same-origin requests from Swagger UI automatically carry your session cookie.
 
 ## Collections
 

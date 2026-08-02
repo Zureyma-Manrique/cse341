@@ -1,7 +1,19 @@
 @baseUrl = http://localhost:3000
 
-### Root / health check
+### Root / health check (public, no login required)
 GET {{baseUrl}}/
+
+### STEP 1: Log in first — open this URL in your BROWSER (not this REST client),
+### complete the Google consent screen, then come back here.
+### GET {{baseUrl}}/auth/google
+
+### Check who's currently logged in (uses the browser session cookie)
+GET {{baseUrl}}/auth/user
+
+### Log out
+GET {{baseUrl}}/auth/logout
+
+### --- Everything below requires an active login session ---
 
 ### Create a project
 POST {{baseUrl}}/projects

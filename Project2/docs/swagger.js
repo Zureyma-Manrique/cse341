@@ -20,9 +20,22 @@ const doc = {
   host: isProd ? process.env.RENDER_HOST || 'your-app.onrender.com' : `localhost:${process.env.PORT || 3000}`,
   schemes: isProd ? ['https'] : ['http'],
   tags: [
-    { name: 'User Stories', description: 'AI-generated agile user stories awaiting review' },
-    { name: 'Projects', description: 'Projects that group user stories and provide AI context' },
+    { name: 'Auth', description: 'Google OAuth login, logout, and current-user check' },
+    { name: 'User Stories', description: 'AI-generated agile user stories awaiting review (requires login)' },
+    { name: 'Projects', description: 'Projects that group user stories and provide AI context (requires login)' },
   ],
+  securityDefinitions: {
+    googleOAuth: {
+      type: 'oauth2',
+      flow: 'accessCode',
+      authorizationUrl: '/auth/google',
+      tokenUrl: '/auth/google/callback',
+      scopes: {
+        profile: 'View basic profile info',
+        email: 'View email address',
+      },
+    },
+  },
   definitions: {
     GeneratePromptRequest: {
       prompt: 'Plan a two-week sprint to add user authentication with OAuth login and password reset.',
