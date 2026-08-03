@@ -1,0 +1,28 @@
+{
+  "name": "paws-and-paths-api",
+  "version": "1.0.0",
+  "description": "Backend API for Paws & Paths, a dog walking scheduler app. CSE 341 Final Project - Week 05.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "cse341",
+    "express",
+    "mongodb",
+    "api"
+  ],
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongodb": "^6.7.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
