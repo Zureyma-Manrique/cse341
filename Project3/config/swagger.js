@@ -7,7 +7,7 @@ const options = {
       title: 'Paws & Paths API',
       version: '1.0.0',
       description:
-        'Backend API for Paws & Paths, a dog walking scheduler that connects dog owners with professional dog walkers. This documentation currently covers the Users and Dogs collections.'
+        'Backend API for Paws & Paths, a dog walking scheduler that connects dog owners with professional dog walkers. Covers the Users, Dogs, WalkSchedules, and Reviews collections, plus Google OAuth login. POST/PUT on WalkSchedules and Reviews require an active login session (see /auth/google).'
     },
     servers: [
       {
