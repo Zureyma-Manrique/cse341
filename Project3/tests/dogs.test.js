@@ -79,4 +79,32 @@ describe('Dogs routes', () => {
 
     expect(res.status).toBe(404);
   });
+
+  test('GET /dogs/owner/:ownerId returns 200 and only that owner\'s dogs', async () => {
+    const ownerId = new ObjectId();
+    const fakeDogs = [{ _id: new ObjectId(), name: 'Biscuit', ownerId: ownerId.toHexString() }];
+    mockCollection.find.mockReturnValue({ toArray: jest.fn().mockResolvedValue(fakeDogs) });
+
+    const res = await request(app).get(`/dogs/owner/${ownerId.toHexString()}`);
+
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveLength(1);
+    expect(res.body[0].ownerId).toBe(ownerId.toHexString());
+  });
+
+  test('GET /dogs/owner/:ownerId returns 400 for a malformed owner id', async () => {
+    const res = await request(app).get('/dogs/owner/not-a-valid-id');
+
+    expect(res.status).toBe(400);
+  });
+
+  test('GET /dogs/owner/:ownerId returns 500 when the database throws', async () => {
+    mockCollection.find.mockImplementation(() => {
+      throw new Error('connection lost');
+    });
+
+    const res = await request(app).get(`/dogs/owner/${new ObjectId().toHexString()}`);
+
+    expect(res.status).toBe(500);
+  });
 });

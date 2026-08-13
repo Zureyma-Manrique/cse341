@@ -165,11 +165,30 @@ This runs Jest + Supertest against each collection's routes, covering:
 - `GET` (all) and `GET /:id` for **all four collections** (200 / 400 / 404 / 500 cases)
 - `POST`/`PUT` on the two protected collections returning `401` when no session is present
 
-## Individual contributions (Week 06)
+## Week 07 completion checklist
+
+Cross-referenced against the "Finish Project" rubric:
+
+| Requirement | Status |
+|---|---|
+| 4+ collections | ✅ `users`, `dogs`, `walkSchedules`, `reviews` |
+| One collection with 7+ fields | ✅ `users` (firstName, lastName, email, role, phone, oauthProvider, oauthId, bio, createdAt) |
+| Connects to MongoDB | ✅ `db/connect.js` |
+| Full CRUD on all collections | ✅ |
+| Error handling (try/catch, 400/500) on every route | ✅ |
+| Data validation on POST/PUT for all 4 collections | ✅ `models/*.js` |
+| Unit tests for every GET/GetAll route | ✅ `tests/` — includes `/dogs/owner/:ownerId` |
+| OAuth protecting 2+ routes | ✅ Google OAuth via Passport, protects `walk-schedules` & `reviews` POST/PUT |
+| Swagger docs published at `/api-docs`, functional as a REST client | ✅ Swagger UI + `requests.rest` for manual testing |
+| Published to Render | ⚠️ Confirm the Render service is redeployed on the latest push before recording the video |
+| Individual contributions documented | ✅ See below |
+
+## Individual contributions (Week 07)
 
 > Fill in with your own words / teammates' names for the assignment submission text box. Suggested starting
 > points based on the work done in this deliverable:
 
+**Week 06:**
 1. Designed and implemented the `walkSchedules` and `reviews` collections — field-level validation
    (`models/walkSchedule.js`, `models/review.js`), full CRUD controllers, and Swagger documentation for both.
 2. Implemented Google OAuth 2.0 login with Passport (`config/passport.js`, `middleware/auth.js`,
@@ -177,3 +196,10 @@ This runs Jest + Supertest against each collection's routes, covering:
    `reviews` POST/PUT routes behind an authentication check.
 3. Wrote the Jest/Supertest unit test suite (`tests/`) covering the GET and GET-all routes for all four
    collections, using a mocked database layer so tests run without a live MongoDB connection.
+
+**Week 07:**
+1. Closed the remaining unit-test gap by adding coverage for the `/dogs/owner/:ownerId` route, so every
+   GET route in the project now has passing tests.
+2. Wrote `requests.rest`, a full manual test file covering every route (including validation-error and
+   401-unauthorized cases) to make the API's documentation functional as a REST client per the rubric, and
+   verified the Swagger spec at `/api-docs` correctly lists all 13 routes across the 4 collections.

@@ -1,0 +1,215 @@
+### Paws & Paths API — manual REST client requests
+### Use with the VS Code "REST Client" extension (or copy into Postman/Insomnia).
+### Log in via /auth/google in a browser first if you want to try the protected
+### POST/PUT requests against a live deployment (see README "Authentication" section).
+
+@baseUrl = http://localhost:3000
+# @baseUrl = https://cse341-0zfq.onrender.com
+
+### ============ AUTH ============
+
+### Start Google OAuth login (open this URL directly in a browser, not here)
+GET {{baseUrl}}/auth/google
+
+### Get the currently logged-in user (requires an active session cookie from a browser login)
+GET {{baseUrl}}/auth/user
+
+### Log out
+GET {{baseUrl}}/auth/logout
+
+### ============ USERS ============
+
+### Get all users
+GET {{baseUrl}}/users
+
+### Get a single user by id
+GET {{baseUrl}}/users/REPLACE_WITH_USER_ID
+
+### Create a user
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "firstName": "Ada",
+  "lastName": "Lovelace",
+  "email": "ada@example.com",
+  "role": "owner",
+  "phone": "555-0101",
+  "bio": "Proud owner of a very good dog."
+}
+
+### Create a user - validation error (missing required fields)
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "firstName": "Missing Fields"
+}
+
+### Update a user
+PUT {{baseUrl}}/users/REPLACE_WITH_USER_ID
+Content-Type: application/json
+
+{
+  "phone": "555-0199",
+  "bio": "Updated bio."
+}
+
+### Delete a user
+DELETE {{baseUrl}}/users/REPLACE_WITH_USER_ID
+
+### ============ DOGS ============
+
+### Get all dogs
+GET {{baseUrl}}/dogs
+
+### Get a single dog by id
+GET {{baseUrl}}/dogs/REPLACE_WITH_DOG_ID
+
+### Get all dogs belonging to a given owner
+GET {{baseUrl}}/dogs/owner/REPLACE_WITH_OWNER_ID
+
+### Create a dog
+POST {{baseUrl}}/dogs
+Content-Type: application/json
+
+{
+  "name": "Biscuit",
+  "breed": "Golden Retriever",
+  "age": 3,
+  "size": "large",
+  "ownerId": "REPLACE_WITH_USER_ID",
+  "specialInstructions": "Loves belly rubs, avoid other dogs off-leash."
+}
+
+### Create a dog - validation error (bad size enum)
+POST {{baseUrl}}/dogs
+Content-Type: application/json
+
+{
+  "name": "Biscuit",
+  "breed": "Golden Retriever",
+  "age": 3,
+  "size": "gigantic",
+  "ownerId": "REPLACE_WITH_USER_ID"
+}
+
+### Update a dog
+PUT {{baseUrl}}/dogs/REPLACE_WITH_DOG_ID
+Content-Type: application/json
+
+{
+  "age": 4
+}
+
+### Delete a dog
+DELETE {{baseUrl}}/dogs/REPLACE_WITH_DOG_ID
+
+### ============ WALK SCHEDULES (POST/PUT require login) ============
+
+### Get all walk schedules
+GET {{baseUrl}}/walk-schedules
+
+### Get a single walk schedule by id
+GET {{baseUrl}}/walk-schedules/REPLACE_WITH_SCHEDULE_ID
+
+### Create a walk schedule - requires an active browser login session
+POST {{baseUrl}}/walk-schedules
+Content-Type: application/json
+
+{
+  "dogId": "REPLACE_WITH_DOG_ID",
+  "walkerId": "REPLACE_WITH_WALKER_USER_ID",
+  "scheduledDate": "2026-08-20T15:00:00.000Z",
+  "duration": 30,
+  "status": "requested",
+  "notes": "Meet at the north gate of the park."
+}
+
+### Create a walk schedule without logging in first -> expect 401
+POST {{baseUrl}}/walk-schedules
+Content-Type: application/json
+
+{
+  "dogId": "REPLACE_WITH_DOG_ID",
+  "walkerId": "REPLACE_WITH_WALKER_USER_ID",
+  "scheduledDate": "2026-08-20T15:00:00.000Z",
+  "duration": 30,
+  "status": "requested"
+}
+
+### Create a walk schedule - validation error (bad status enum)
+POST {{baseUrl}}/walk-schedules
+Content-Type: application/json
+
+{
+  "dogId": "REPLACE_WITH_DOG_ID",
+  "walkerId": "REPLACE_WITH_WALKER_USER_ID",
+  "scheduledDate": "2026-08-20T15:00:00.000Z",
+  "duration": 30,
+  "status": "not-a-real-status"
+}
+
+### Update a walk schedule - requires an active login session
+PUT {{baseUrl}}/walk-schedules/REPLACE_WITH_SCHEDULE_ID
+Content-Type: application/json
+
+{
+  "status": "confirmed"
+}
+
+### Delete a walk schedule
+DELETE {{baseUrl}}/walk-schedules/REPLACE_WITH_SCHEDULE_ID
+
+### ============ REVIEWS (POST/PUT require login) ============
+
+### Get all reviews
+GET {{baseUrl}}/reviews
+
+### Get a single review by id
+GET {{baseUrl}}/reviews/REPLACE_WITH_REVIEW_ID
+
+### Create a review - requires an active login session
+POST {{baseUrl}}/reviews
+Content-Type: application/json
+
+{
+  "walkScheduleId": "REPLACE_WITH_SCHEDULE_ID",
+  "reviewerId": "REPLACE_WITH_OWNER_USER_ID",
+  "walkerId": "REPLACE_WITH_WALKER_USER_ID",
+  "rating": 5,
+  "comment": "Great walker, very reliable!"
+}
+
+### Create a review without logging in first -> expect 401
+POST {{baseUrl}}/reviews
+Content-Type: application/json
+
+{
+  "walkScheduleId": "REPLACE_WITH_SCHEDULE_ID",
+  "reviewerId": "REPLACE_WITH_OWNER_USER_ID",
+  "walkerId": "REPLACE_WITH_WALKER_USER_ID",
+  "rating": 5
+}
+
+### Create a review - validation error (rating out of range)
+POST {{baseUrl}}/reviews
+Content-Type: application/json
+
+{
+  "walkScheduleId": "REPLACE_WITH_SCHEDULE_ID",
+  "reviewerId": "REPLACE_WITH_OWNER_USER_ID",
+  "walkerId": "REPLACE_WITH_WALKER_USER_ID",
+  "rating": 9
+}
+
+### Update a review - requires an active login session
+PUT {{baseUrl}}/reviews/REPLACE_WITH_REVIEW_ID
+Content-Type: application/json
+
+{
+  "comment": "Updated: still great, would book again."
+}
+
+### Delete a review
+DELETE {{baseUrl}}/reviews/REPLACE_WITH_REVIEW_ID
